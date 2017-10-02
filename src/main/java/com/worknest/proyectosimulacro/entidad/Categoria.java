@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.worknest.entidad;
+package com.worknest.proyectosimulacro.entidad;
 
 import java.io.Serializable;
 import javax.persistence.Column;
@@ -32,7 +32,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "categoria")
 @NamedStoredProcedureQuery(
-		name = "insertarcategoria", 
+		name = "sp_i_categoria", 
 		procedureName = "sp_i_categoria", 
 		parameters = {
                       @StoredProcedureParameter(mode = ParameterMode.IN, name="nombre_cat", type=String.class),

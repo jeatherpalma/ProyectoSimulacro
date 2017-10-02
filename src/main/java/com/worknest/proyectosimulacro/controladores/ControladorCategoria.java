@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.worknest.controladores;
+package com.worknest.proyectosimulacro.controladores;
 
-import com.worknest.entidad.Categoria;
-import com.worknest.repositorio.RepositorioCategoria;
+import com.worknest.proyectosimulacro.entidad.Categoria;
+import com.worknest.proyectosimulacro.repositorio.RepositorioCategoria;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -42,10 +42,16 @@ public class ControladorCategoria {
     
     
     @RequestMapping(method = RequestMethod.POST, path = "/insertarcategoria", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public String agregarElementoJSON(@RequestBody Categoria persona){
-      
-        repositoriocategoria.insertarcategoria(persona.getNombre(), persona.getDescripcion());
-        return "agregado ";
+    public ResponseEntity<Categoria> agregarElementoJSON(@RequestBody Categoria categoria){
+        
+        if(repositoriocategoria.findByNombre(categoria.getNombre())==null){
+           repositoriocategoria.sp_i_categoria(categoria.getNombre(), categoria.getDescripcion());
+           return new ResponseEntity<Categoria>(categoria,HttpStatus.OK); 
+        }else{
+           return new ResponseEntity<Categoria>(categoria, HttpStatus.NOT_MODIFIED);
+        }
+        
+        
     }
 
 

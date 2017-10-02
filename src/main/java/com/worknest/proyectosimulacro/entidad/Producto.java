@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.worknest.repositorio;
+package com.worknest.proyectosimulacro.entidad;
 
 /**
  *
  * @author WorkNest8
  */
-public interface RepositorioProducto {
+public class Producto {
     
 }
