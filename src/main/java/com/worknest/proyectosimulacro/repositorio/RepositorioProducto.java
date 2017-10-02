@@ -22,7 +22,7 @@ public interface RepositorioProducto extends JpaRepository<Producto, String> {
     Producto findByNombre(String c_barras);
     
     @Procedure
-    void sp_i_producto(String c_barras, String nombre_prod,String descripcion_prod, int cantidad,float precio_compra, float precio_venta , Long idcategoria);
+    void sp_i_producto(String c_barras, String nombre_prod,String descripcion_prod, int cantidad,Float precio_compra, Float precio_venta , Long idcategoria);
     
      @Query(value = "SELECT * FROM producto", nativeQuery = true)
     List<Producto> seleccionaproductos();

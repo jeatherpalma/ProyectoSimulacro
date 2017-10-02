@@ -74,14 +74,16 @@ public class ControladorProducto {
     public ResponseEntity<Producto> agregarElementoJSON(@RequestBody Producto producto){
      /**
       * Con la anotación @RequestMapping declaramos el método http a usar (en este caso "POST") al momento de invocar la URI "/insertarproducto"
-      * para insertar productos, los cuales se formatearán en JSON. Luego declaramos 
-      * c
+      * para insertar productos, los cuales se formatearán en JSON. Luego declaramos el metodo "agregarElementoJSON" al cual se le inyecta lo anterior.
+      * Este métodouna lista que contendrá los objetos "Produccto"
+      * que reciba, del mismo tipo "Producto", para su uso dentro de java. Al momento de invocar este método, recibe 
+      * 
       */   
         
        
         
-        if(repositorioproducto.findByNombre(producto.getC_barras())==null){
-           repositorioproducto.sp_i_producto(producto.getC_barras(),producto.getNombre(),producto.getDescripcion_prod(),producto.getCantidad(), producto.getPrecio_compra(),producto.getPrecio_venta(),producto.getId_categoria());
+        if(repositorioproducto.findByNombre(producto.getCbarras())==null){
+           repositorioproducto.sp_i_producto(producto.getCbarras(),producto.getNombre(),producto.getDescripcionprod(),producto.getCantidad(), producto.getPreciocompra(),producto.getPrecioventa(),producto.getIdcategoria());
            return new ResponseEntity<Producto>(producto,HttpStatus.OK); 
         }else{
            return new ResponseEntity<Producto>(producto, HttpStatus.NOT_MODIFIED);

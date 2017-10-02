@@ -31,8 +31,8 @@ import javax.persistence.Table;
                       @StoredProcedureParameter(mode = ParameterMode.IN, name="nombre_prod", type=String.class),
                       @StoredProcedureParameter(mode = ParameterMode.IN, name="descripcion_prod", type=String.class),
                       @StoredProcedureParameter(mode = ParameterMode.IN, name="cantidad", type=int.class),
-                      @StoredProcedureParameter(mode = ParameterMode.IN, name="precio_compra", type=float.class),
-                      @StoredProcedureParameter(mode = ParameterMode.IN, name="precio_venta", type=float.class),
+                      @StoredProcedureParameter(mode = ParameterMode.IN, name="precio_compra", type=Float.class),
+                      @StoredProcedureParameter(mode = ParameterMode.IN, name="precio_venta", type=Float.class),
                       @StoredProcedureParameter(mode = ParameterMode.IN, name="idcategoria", type=Long.class)
 		}
 )
@@ -41,14 +41,14 @@ public class Producto implements Serializable{
     /**
      * @return the c_barras
      */
-    public String getC_barras() {
+    public String getCbarras() {
         return c_barras;
     }
 
     /**
      * @param c_barras the c_barras to set
      */
-    public void setC_barras(String c_barras) {
+    public void setCbarras(String c_barras) {
         this.c_barras = c_barras;
     }
 
@@ -69,14 +69,14 @@ public class Producto implements Serializable{
     /**
      * @return the descripcion_prod
      */
-    public String getDescripcion_prod() {
+    public String getDescripcionprod() {
         return descripcion_prod;
     }
 
     /**
      * @param descripcion_prod the descripcion_prod to set
      */
-    public void setDescripcion_prod(String descripcion_prod) {
+    public void setDescripcionprod(String descripcion_prod) {
         this.descripcion_prod = descripcion_prod;
     }
 
@@ -97,42 +97,42 @@ public class Producto implements Serializable{
     /**
      * @return the precio_compra
      */
-    public float getPrecio_compra() {
+    public float getPreciocompra() {
         return precio_compra;
     }
 
     /**
      * @param precio_compra the precio_compra to set
      */
-    public void setPrecio_compra(float precio_compra) {
+    public void setPreciocompra(float precio_compra) {
         this.precio_compra = precio_compra;
     }
 
     /**
      * @return the precio_venta
      */
-    public float getPrecio_venta() {
+    public float getPrecioventa() {
         return precio_venta;
     }
 
     /**
      * @param precio_venta the precio_venta to set
      */
-    public void setPrecio_venta(float precio_venta) {
+    public void setPrecioventa(float precio_venta) {
         this.precio_venta = precio_venta;
     }
 
     /**
      * @return the id_categoria
      */
-    public Long getId_categoria() {
+    public Long getIdcategoria() {
         return idcategoria;
     }
 
     /**
      * @param idcategoria the id_categoria to set
      */
-    public void setId_categoria(Long idcategoria) {
+    public void setIdcategoria(Long idcategoria) {
         this.idcategoria = idcategoria;
     }
     
