@@ -35,7 +35,7 @@ import org.springframework.web.bind.annotation.RestController;
  * solicitudes necesarias para manipular "productos"
  * @author WorkNest8
  */
-@RequestMapping("/inicio") 
+@RequestMapping("/producto") 
 /**
  * con la anotacion @RequestMapping indicamos el nombre del recurso que se decea ejecutar, 
  * a partir de la URI inicial ("/inicio) y construimos la clase para contener las instrucciones para ejecutar
@@ -70,7 +70,7 @@ public class ControladorProducto {
          */
     }
    
-    @RequestMapping(method = RequestMethod.POST, path = "/insertarproducto", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(method = RequestMethod.POST, path = "/insertar", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Producto> agregarElementoJSON(@RequestBody Producto producto){
      /**
       * Con la anotación @RequestMapping declaramos el método http a usar (en este caso "POST") al momento de invocar la URI "/insertarproducto"
@@ -82,8 +82,8 @@ public class ControladorProducto {
         
        
         
-        if(repositorioproducto.findByC_barras(producto.getC_barras())==null){
-           repositorioproducto.sp_i_producto(producto.getC_barras(),producto.getNombre(),producto.getDescripcion_prod(),producto.getCantidad(), producto.getPrecio_compra(),producto.getPrecio_venta(),producto.getIdcategoria());
+        if(repositorioproducto.findByNombre(producto.getCodigoBarras())==null){
+           repositorioproducto.sp_i_producto(producto.getCodigoBarras(),producto.getNombre(),producto.getDescripcion(),producto.getCantidad(), producto.getPrecioCompra(),producto.getPrecioVenta(),producto.getCategoria());
            return new ResponseEntity<Producto>(producto,HttpStatus.OK); 
         }else{
            return new ResponseEntity<Producto>(producto, HttpStatus.NOT_MODIFIED);

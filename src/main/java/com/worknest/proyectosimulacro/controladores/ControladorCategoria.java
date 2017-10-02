@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author WorkNest8
  */
 @RestController
-@RequestMapping("/test")
+@RequestMapping("/categoria")
 public class ControladorCategoria {
     
     private final RepositorioCategoria repositoriocategoria;
@@ -38,7 +38,7 @@ public class ControladorCategoria {
     
     
     
-    @RequestMapping(method = RequestMethod.POST, path = "/insertarcategoria", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(method = RequestMethod.POST, path = "/insertar", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Categoria> agregarElementoJSON(@RequestBody Categoria categoria){
         
         if(repositoriocategoria.findByNombre(categoria.getNombre())==null){

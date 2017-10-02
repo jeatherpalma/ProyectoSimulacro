@@ -40,26 +40,26 @@ public class Producto implements Serializable{
 
     @Id
     @Column(name = "c_barras") 
-    private String c_barras;
+    private String codigoBarras;
     @Column(name = "nombre_prod")
     private String nombre;
     @Column(name = "descripcion_prod")
-    private String descripcion_prod;
+    private String descripcion;
     @Column(name= "cantidad")
     private Long cantidad;
     @Column(name= "precio_compra")
-    private float precio_compra;
+    private float precioCompra;
     @Column(name= "precio_venta")
-    private float precio_venta;
+    private float precioVenta;
     @Column(name= "idcategoria")
-    private Long idcategoria;
+    private Long categoria;
 
-    public String getC_barras() {
-        return c_barras;
+    public String getCodigoBarras() {
+        return codigoBarras;
     }
 
-    public void setC_barras(String c_barras) {
-        this.c_barras = c_barras;
+    public void setCodigoBarras(String codigoBarras) {
+        this.codigoBarras = codigoBarras;
     }
 
     public String getNombre() {
@@ -70,12 +70,12 @@ public class Producto implements Serializable{
         this.nombre = nombre;
     }
 
-    public String getDescripcion_prod() {
-        return descripcion_prod;
+    public String getDescripcion() {
+        return descripcion;
     }
 
-    public void setDescripcion_prod(String descripcion_prod) {
-        this.descripcion_prod = descripcion_prod;
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
 
     public Long getCantidad() {
@@ -86,29 +86,32 @@ public class Producto implements Serializable{
         this.cantidad = cantidad;
     }
 
-    public float getPrecio_compra() {
-        return precio_compra;
+    public float getPrecioCompra() {
+        return precioCompra;
     }
 
-    public void setPrecio_compra(float precio_compra) {
-        this.precio_compra = precio_compra;
+    public void setPrecioCompra(float precioCompra) {
+        this.precioCompra = precioCompra;
     }
 
-    public float getPrecio_venta() {
-        return precio_venta;
+    public float getPrecioVenta() {
+        return precioVenta;
     }
 
-    public void setPrecio_venta(float precio_venta) {
-        this.precio_venta = precio_venta;
+    public void setPrecioVenta(float precioVenta) {
+        this.precioVenta = precioVenta;
     }
 
-    public Long getIdcategoria() {
-        return idcategoria;
+    public Long getCategoria() {
+        return categoria;
     }
 
-    public void setIdcategoria(Long idcategoria) {
-        this.idcategoria = idcategoria;
+    public void setCategoria(Long categoria) {
+        this.categoria = categoria;
     }
+
+    
+    
     
     
     
