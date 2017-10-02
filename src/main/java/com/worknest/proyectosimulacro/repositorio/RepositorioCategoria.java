@@ -21,6 +21,7 @@ public interface RepositorioCategoria extends JpaRepository<Categoria, Long>{
     @Procedure
     void sp_i_categoria(String nombre, String descripcion);
     
+    
     @Query(value = "SELECT * FROM categoria", nativeQuery = true)
     List<Categoria> seleccionacategorias();
       

@@ -62,10 +62,10 @@ public class ControladorProducto {
     }
     
     @GetMapping("/leer")
-    public List<Producto> listCategorias(){
+    public String listCategorias(){
        /**
          * Con este método devolvemos todos los productos
          */
-   return  repositorioproducto.seleccionaproductos();
+   return  repositorioproducto.sp_q_inventario();
 }
 }

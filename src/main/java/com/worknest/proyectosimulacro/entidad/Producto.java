@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedStoredProcedureQueries;
 import javax.persistence.NamedStoredProcedureQuery;
 import javax.persistence.ParameterMode;
 import javax.persistence.StoredProcedureParameter;
@@ -19,7 +20,12 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "producto")
-@NamedStoredProcedureQuery(
+
+
+/*Creación del procedimiento almacenado*/
+@NamedStoredProcedureQueries({
+	/*Procedimiento almacenao de agregar*/
+	@NamedStoredProcedureQuery(
 		name = "sp_i_producto", 
 		procedureName = "sp_i_producto", 
 		parameters = {
@@ -31,7 +37,19 @@ import javax.persistence.Table;
                       @StoredProcedureParameter(mode = ParameterMode.IN, name="pventa", type=Float.class),
                       @StoredProcedureParameter(mode = ParameterMode.IN, name="idcategoria", type=Long.class)
 		}
-)
+),
+	/*Procedimiento de eliminar una persona*/
+	@NamedStoredProcedureQuery(
+			name = "sp_q_inventario",
+			procedureName = "sp_q_inventario",
+			parameters = {
+					
+					@StoredProcedureParameter(mode = ParameterMode.OUT, name = "retorno", type=String.class)
+					
+					
+			})
+})
+
 public class Producto implements Serializable{
 
     @Id
