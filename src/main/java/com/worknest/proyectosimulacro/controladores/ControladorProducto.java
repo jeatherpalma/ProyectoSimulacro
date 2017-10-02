@@ -82,8 +82,8 @@ public class ControladorProducto {
         
        
         
-        if(repositorioproducto.findByNombre(producto.getCbarras())==null){
-           repositorioproducto.sp_i_producto(producto.getCbarras(),producto.getNombre(),producto.getDescripcionprod(),producto.getCantidad(), producto.getPreciocompra(),producto.getPrecioventa(),producto.getIdcategoria());
+        if(repositorioproducto.findByC_barras(producto.getC_barras())==null){
+           repositorioproducto.sp_i_producto(producto.getC_barras(),producto.getNombre(),producto.getDescripcion_prod(),producto.getCantidad(), producto.getPrecio_compra(),producto.getPrecio_venta(),producto.getIdcategoria());
            return new ResponseEntity<Producto>(producto,HttpStatus.OK); 
         }else{
            return new ResponseEntity<Producto>(producto, HttpStatus.NOT_MODIFIED);

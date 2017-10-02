@@ -19,10 +19,10 @@ import org.springframework.data.jpa.repository.query.Procedure;
 public interface RepositorioProducto extends JpaRepository<Producto, String> {
     
     
-    Producto findByNombre(String c_barras);
+    Producto findByC_barras(String C_barras);
     
     @Procedure
-    void sp_i_producto(String c_barras, String nombre_prod,String descripcion_prod, int cantidad,Float precio_compra, Float precio_venta , Long idcategoria);
+    void sp_i_producto(String c_barras, String nombre_prod,String descripcion_prod, Long cantidad,Float precio_compra, Float precio_venta , Long idcategoria);
     
      @Query(value = "SELECT * FROM producto", nativeQuery = true)
     List<Producto> seleccionaproductos();
