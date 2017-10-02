@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package com.worknest.proyectosimulacro.entidad;
 
 import java.io.Serializable;
@@ -17,8 +13,8 @@ import javax.persistence.StoredProcedureParameter;
 import javax.persistence.Table;
 
 /**
- *
- * @author WorkNest8
+ * 
+ * nombre de la tabla y generacion del procedimiento almacenado
  */
 
 @Entity

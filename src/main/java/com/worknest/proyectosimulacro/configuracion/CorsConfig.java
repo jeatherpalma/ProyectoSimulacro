@@ -10,7 +10,10 @@ import org.springframework.web.filter.CorsFilter;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-
+/**
+ * 
+ * Clase con la configuracion necesaria para la conexion con la base de datos 
+ */
 @Configuration
 public class CorsConfig {
 
