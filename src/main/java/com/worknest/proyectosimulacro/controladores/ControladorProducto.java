@@ -1,7 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * En Esta clase, se dan de alta las solicitudes que se usarán como URI de cada 
+ * accion que se desea realizar. 
  */
 package com.worknest.proyectosimulacro.controladores;
 
@@ -24,26 +23,65 @@ import org.springframework.web.bind.annotation.RestController;
  *
  * @author WorkNest8
  */
-@RestController
-@RequestMapping("/inicio")
+/**
+ *
+ */
+@RestController 
+/**
+ * bajo la programacion de "anotaciones", springboot usa la anotacion @RestController
+ * para indicar que esta clase de java será inyectadas como servicios REST
+ * y contendrá las operaciones que se soliciten, para su control, es a lo que llamamos
+ * "inyeción de dependencias"(en este caso, las 
+ * solicitudes necesarias para manipular "productos"
+ * @author WorkNest8
+ */
+@RequestMapping("/inicio") 
+/**
+ * con la anotacion @RequestMapping indicamos el nombre del recurso que se decea ejecutar, 
+ * a partir de la URI inicial ("/inicio) y construimos la clase para contener las instrucciones para ejecutar
+ */
+
 public class ControladorProducto {
-    
+    /**
+     * Esta clase prepara las operaciones que contienen la clase, para su uso como servicio REST
+     */
     private final RepositorioProducto repositorioproducto;
-    public int contadorRegistros = 0;
+    /**
+     * @param repositorioproducto 
+     * inyectamos la clase "Repositorio" para que springboot sea quien la invoque para su implementación
+     * a partir de las etiquetas que la van definiendo (en este caso @RestRestController
+     * y @RequestMapping) y contenga sus metodos para su ejecucion. 
+     */
     @Autowired
+    /**
+     * Con la anotacion @Autowired, springboot busca en el proyecto, los metodos de 
+     * de la clase "RepositorioProducto" para inyectarlos cuando sprinboot los mande a llamar en 
+     * el método "ControladorProducto"
+     */
     public ControladorProducto(RepositorioProducto repositorioproducto) {
+        /**
+         * inyectamos la clase "RepositorioProducto" para su uso en esta clase como 
+         * un parámetro mas de la clase (inyeccion de código)
+         */
+            
         this.repositorioproducto = repositorioproducto;
+        /**
+         * 
+         */
     }
-    
-    
+   
     @RequestMapping(method = RequestMethod.POST, path = "/insertarproducto", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Producto> agregarElementoJSON(@RequestBody Producto producto){
-        
+     /**
+      * Con la anotación @RequestMapping declaramos el método http a usar (en este caso "POST") al momento de invocar la URI "/insertarproducto"
+      * para insertar productos, los cuales se formatearán en JSON. Luego declaramos 
+      * c
+      */   
         
        
         
         if(repositorioproducto.findByNombre(producto.getC_barras())==null){
-           repositorioproducto.sp_i_producto(producto.getC_barras(),producto.getNombre_prod(),producto.getDescripcion_prod(),producto.getCantidad(), producto.getPrecio_compra(),producto.getPrecio_venta(),producto.getId_categoria());
+           repositorioproducto.sp_i_producto(producto.getC_barras(),producto.getNombre(),producto.getDescripcion_prod(),producto.getCantidad(), producto.getPrecio_compra(),producto.getPrecio_venta(),producto.getId_categoria());
            return new ResponseEntity<Producto>(producto,HttpStatus.OK); 
         }else{
            return new ResponseEntity<Producto>(producto, HttpStatus.NOT_MODIFIED);
@@ -51,4 +89,10 @@ public class ControladorProducto {
         
         
     }
+    
+    @GetMapping("/leer")
+    public List<Producto> listCategorias(){
+       
+   return  repositorioproducto.seleccionaproductos();
+}
 }

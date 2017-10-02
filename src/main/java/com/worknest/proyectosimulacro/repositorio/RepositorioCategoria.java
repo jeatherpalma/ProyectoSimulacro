@@ -20,14 +20,17 @@ import org.springframework.stereotype.Repository;
 public interface RepositorioCategoria extends JpaRepository<Categoria, Long>{
     
     
-    @Query(value = "SELECT * FROM categorias", nativeQuery = true)
-    List<Categoria> seleccionaTodasLasCategoria();
+    
     
     Categoria findByNombre(String nombre);
 
     
     @Procedure
     void sp_i_categoria(String nombre, String descripcion);
+    
+    
+    @Query(value = "SELECT * FROM categoria", nativeQuery = true)
+    List<Categoria> seleccionacategorias();
       
 }
 

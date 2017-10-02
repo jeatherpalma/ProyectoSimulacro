@@ -22,7 +22,7 @@ import javax.persistence.Table;
  */
 
 @Entity
-@Table(name = "productos")
+@Table(name = "producto")
 @NamedStoredProcedureQuery(
 		name = "sp_i_producto", 
 		procedureName = "sp_i_producto", 
@@ -55,15 +55,15 @@ public class Producto implements Serializable{
     /**
      * @return the nombre_prod
      */
-    public String getNombre_prod() {
-        return nombre_prod;
+    public String getNombre() {
+        return nombre;
     }
 
     /**
      * @param nombre_prod the nombre_prod to set
      */
-    public void setNombre_prod(String nombre_prod) {
-        this.nombre_prod = nombre_prod;
+    public void setNombre(String nombre_prod) {
+        this.nombre = nombre_prod;
     }
 
     /**
@@ -140,7 +140,7 @@ public class Producto implements Serializable{
     @Column(name = "c_barras") 
     private String c_barras;
     @Column(name = "nombre_prod")
-    private String nombre_prod;
+    private String nombre;
     @Column(name = "descripcion_prod")
     private String descripcion_prod;
     @Column(name= "cantidad")

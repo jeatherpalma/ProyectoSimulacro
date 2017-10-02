@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -32,11 +33,7 @@ public class ControladorCategoria {
     public ControladorCategoria(RepositorioCategoria repositoriocategoria) {
         this.repositoriocategoria = repositoriocategoria;
     }
-    @GetMapping
-    public List<Categoria> listCategoria(){
-        
-        return repositoriocategoria.seleccionaTodasLasCategoria();
-    }
+    
     
     
     
@@ -53,6 +50,12 @@ public class ControladorCategoria {
         
         
     }
-
-
+    
+    @GetMapping("/leer")
+    public List<Categoria> listCategorias(){
+       
+   return  repositoriocategoria.seleccionacategorias();
+      
+}
+    
 }
