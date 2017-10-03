@@ -1,11 +1,8 @@
-
 package com.worknest.proyectosimulacro.entidad;
 
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedStoredProcedureQueries;
 import javax.persistence.NamedStoredProcedureQuery;
@@ -13,36 +10,14 @@ import javax.persistence.ParameterMode;
 import javax.persistence.StoredProcedureParameter;
 import javax.persistence.Table;
 
-/**
- * 
- * nombre de la tabla y generacion del procedimiento almacenado
- */
-
 @Entity
 @Table(name = "producto")
 
 
 /*Creación del procedimiento almacenado*/
-@NamedStoredProcedureQueries({
-	/*Procedimiento almacenao de agregar*/
-	@NamedStoredProcedureQuery(
-		name = "sp_i_producto", 
-		procedureName = "sp_i_producto", 
-		parameters = {
-                      @StoredProcedureParameter(mode = ParameterMode.IN, name="barcode", type=String.class),
-                      @StoredProcedureParameter(mode = ParameterMode.IN, name="name", type=String.class),
-                      @StoredProcedureParameter(mode = ParameterMode.IN, name="description", type=String.class),
-                      @StoredProcedureParameter(mode = ParameterMode.IN, name="cant", type=Long.class),
-                      @StoredProcedureParameter(mode = ParameterMode.IN, name="pcompra", type=Float.class),
-                      @StoredProcedureParameter(mode = ParameterMode.IN, name="pventa", type=Float.class),
-                      @StoredProcedureParameter(mode = ParameterMode.IN, name="idcategoria", type=Long.class)
-		}
-),
-	
-})
 
-public class Producto implements Serializable{
 
+public class ProductoInventario implements Serializable{
 
     @Id
     @Column(name = "c_barras") 
@@ -57,9 +32,8 @@ public class Producto implements Serializable{
     private float precioCompra;
     @Column(name= "precio_venta")
     private float precioVenta;
-    @Column(name= "idcategoria")
-    private Long categoria;
-    
+    @Column(name= "nombre_cat")
+    private String categoria;
 
     public String getCodigoBarras() {
         return codigoBarras;
@@ -109,11 +83,11 @@ public class Producto implements Serializable{
         this.precioVenta = precioVenta;
     }
 
-    public Long getCategoria() {
+    public String getCategoria() {
         return categoria;
     }
 
-    public void setCategoria(Long categoria) {
+    public void setCategoria(String categoria) {
         this.categoria = categoria;
     }
 

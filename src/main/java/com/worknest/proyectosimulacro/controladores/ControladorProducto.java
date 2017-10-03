@@ -5,9 +5,12 @@
 package com.worknest.proyectosimulacro.controladores;
 
 import com.worknest.proyectosimulacro.entidad.Categoria;
+import com.worknest.proyectosimulacro.entidad.CodigoBarras;
 import com.worknest.proyectosimulacro.entidad.Producto;
+import com.worknest.proyectosimulacro.entidad.ProductoInventario;
 import com.worknest.proyectosimulacro.repositorio.RepositorioCategoria;
 import com.worknest.proyectosimulacro.repositorio.RepositorioProducto;
+import com.worknest.proyectosimulacro.repositorio.RepositorioProductoVista;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -33,13 +36,13 @@ public class ControladorProducto {
      * inyeccion de dependencias y codigo para el funciomamiento de la clase
      * en spring
      */
-    private final RepositorioProducto repositorioproducto;
     @Autowired
-    public ControladorProducto(RepositorioProducto repositorioproducto) {
-      
-        this.repositorioproducto = repositorioproducto;
-        
-    }
+    private RepositorioProducto repositorioproducto;
+    @Autowired
+    private RepositorioProductoVista reposirotioVistaProductos;
+    
+ 
+   
    
     @RequestMapping(method = RequestMethod.POST, path = "/insertar", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Producto> agregarElementoJSON(@RequestBody Producto producto){
@@ -51,7 +54,7 @@ public class ControladorProducto {
         * En esta condicion, buscamos que si el nombre del producto no existe en el momento de agregar un producto, llamamos al procedimiento almacenado en la base de datos
         * para insertar dicho producto. En caso contrario, se retorna el estado "NOT_MODIFIED"
         */
-        if(repositorioproducto.findByNombre(producto.getCodigoBarras())==null){
+        if(repositorioproducto.findByCodigoBarras(producto.getCodigoBarras())==null){
            repositorioproducto.sp_i_producto(producto.getCodigoBarras(),producto.getNombre(),producto.getDescripcion(),producto.getCantidad(), producto.getPrecioCompra(),producto.getPrecioVenta(),producto.getCategoria());
            return new ResponseEntity<Producto>(producto,HttpStatus.OK); 
         }else{
@@ -62,10 +65,31 @@ public class ControladorProducto {
     }
     
     @GetMapping("/leer")
-    public String listCategorias(){
-       /**
-         * Con este método devolvemos todos los productos
+    public List<ProductoInventario> listCategorias(){
+        /**
+          * Con este método devolvemos todos los productos
+          */
+        return  reposirotioVistaProductos.seleccionaproductos();
+    }
+    
+    /**
+     * Obtenemos la cantidad de productos de la base de datos
+     */
+    @RequestMapping(method = RequestMethod.POST, path = "/buscar", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Producto> buscarProductoCarrito(@RequestBody CodigoBarras c_barras){       
+        
+        
+        Producto productoBuscarCarrito = repositorioproducto.findByCodigoBarras(c_barras.getC_barras());//Se busca el producto en base al codigo de barras
+        /**
+         * Ciclo if que verifica la existencia del producto con el codigo de barras en la base de datos
          */
-   return  repositorioproducto.sp_q_inventario();
-}
+        if(productoBuscarCarrito != null){
+            //Si se haya el producto se regresa el estatus 200
+            return new ResponseEntity<Producto>(productoBuscarCarrito, HttpStatus.OK);       
+        }else{
+            //Si no se haya el producto se regresa el estatus 404
+            return new ResponseEntity<Producto>(productoBuscarCarrito, HttpStatus.NOT_FOUND);       
+        }
+        
+    }
 }
