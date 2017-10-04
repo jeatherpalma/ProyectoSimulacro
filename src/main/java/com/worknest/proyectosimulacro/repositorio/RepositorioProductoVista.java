@@ -12,12 +12,14 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 /**
- *
- * @author WorkNest8
+ * clase que contiene los procedimientos que se utilizan mediante JPA para 
+ * gestionar a "Inventario de producto" desde una vista en la base de datos llamada "v_inventario", 
+ * el cual se requiere para obtener el total de los productos, con su respectiva categoria, no el id 
+ * de la misma, ya que es una id foranea
  */
 public interface RepositorioProductoVista extends JpaRepository<ProductoInventario, String>{
     
-        
+    //metodo que se invoca para ejecutar el Query   
     @Query(value = "SELECT * FROM v_inventario", nativeQuery = true)
     List<ProductoInventario> seleccionaproductos();
     

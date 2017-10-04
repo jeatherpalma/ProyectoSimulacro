@@ -7,7 +7,7 @@ package com.worknest.proyectosimulacro.controladores;
 
 import com.worknest.proyectosimulacro.entidad.Historial;
 import com.worknest.proyectosimulacro.entidad.Producto;
-import com.worknest.proyectosimulacro.entidad.ProductoVenta;
+import com.worknest.proyectosimulacro.recursos.ProductoVenta;
 import com.worknest.proyectosimulacro.entidad.Ventas;
 import com.worknest.proyectosimulacro.repositorio.RepositorioHistorial;
 import com.worknest.proyectosimulacro.repositorio.RepositorioProducto;
@@ -59,7 +59,7 @@ public class ControladorVentas {
         
        /**
         * 
-        * variable para sumar el total ;D
+        * variable para sumar el total
         */
         float sumaDeCompra = 0 , sumaDeVenta = 0 , ganancia = 0;
         

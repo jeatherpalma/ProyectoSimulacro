@@ -24,7 +24,7 @@ public interface RepositorioProducto extends JpaRepository<Producto, String> {
     
     @Procedure
     void sp_i_producto(String codigoBarras, String nombre,String descripcion, Long cantidad,Float precioCompra, Float precioVenta , Long categoria);
-
+    
     
     @Query(value = "SELECT * FROM v_inventario", nativeQuery = true)
     List<ProductoInventario> seleccionaproductos();

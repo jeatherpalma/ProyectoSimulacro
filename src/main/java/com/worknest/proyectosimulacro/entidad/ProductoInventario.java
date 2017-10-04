@@ -14,7 +14,10 @@ import javax.persistence.Table;
 @Table(name = "producto")
 
 
-/*Creación del procedimiento almacenado*/
+/*mapeo de la entidad "ProductoInventario" para permitir los cambios
+entre el "id de la categoria" y "el nombre de la categoria", lo cual se requiere
+cuando se muestra en front el nombre de la categoria a la que pertenece un producto
+y cuando se debe de guardar en base de datos el id de la categoria, ya que es una id foranea*/
 
 
 public class ProductoInventario implements Serializable{

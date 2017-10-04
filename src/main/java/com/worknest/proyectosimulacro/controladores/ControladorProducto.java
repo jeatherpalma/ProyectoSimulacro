@@ -5,7 +5,7 @@
 package com.worknest.proyectosimulacro.controladores;
 
 import com.worknest.proyectosimulacro.entidad.Categoria;
-import com.worknest.proyectosimulacro.entidad.CodigoBarras;
+import com.worknest.proyectosimulacro.recursos.CodigoBarras;
 import com.worknest.proyectosimulacro.entidad.Producto;
 import com.worknest.proyectosimulacro.entidad.ProductoInventario;
 import com.worknest.proyectosimulacro.repositorio.RepositorioCategoria;
@@ -40,37 +40,59 @@ public class ControladorProducto {
     private RepositorioProducto repositorioproducto;
     @Autowired
     private RepositorioProductoVista reposirotioVistaProductos;
+    @Autowired
+    private RepositorioCategoria repositoriocategoria;
     
  
    
    
     @RequestMapping(method = RequestMethod.POST, path = "/insertar", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Producto> agregarElementoJSON(@RequestBody Producto producto){
+    public ResponseEntity<ProductoInventario> agregarElementoJSON(@RequestBody ProductoInventario producto){
      /**
      * Declaraciones de spring para usar el método post en la URI "insertar" y formatear los datos a JSON que se recojen desde el cuerpo de html
      */
      
      /**
-        * En esta condicion, buscamos que si el nombre del producto no existe en el momento de agregar un producto, llamamos al procedimiento almacenado en la base de datos
-        * para insertar dicho producto. En caso contrario, se retorna el estado "NOT_MODIFIED"
+        * En esta condición, buscamos que si el codigo de barra de un productgo no existe en el momento de agregar un nuevo producto, llamamos al procedimiento almacenado "sp_i_producto" 
+        * en la base de datos para insertar dicha producto: Se recibe un JSON con los datos del producto, donde el campo "categoria" es un String con el nombre de la categoria a la que pertenece.
+        * Luego se busca la "id" de la categoria a partir del "nombre" de la categoria, en la entidad "Categoria".
+        * Despues se devuelve hacia la base de datos los datos con el campo "categoria" de tipo Long con la "id" de la categoria, ya que es una id foranea
+        * En caso contrario, se retorna el estado "NOT_MODIFIED"
+        * 
         */
         if(repositorioproducto.findByCodigoBarras(producto.getCodigoBarras())==null){
-           repositorioproducto.sp_i_producto(producto.getCodigoBarras(),producto.getNombre(),producto.getDescripcion(),producto.getCantidad(), producto.getPrecioCompra(),producto.getPrecioVenta(),producto.getCategoria());
-           return new ResponseEntity<Producto>(producto,HttpStatus.OK); 
+            
+           Categoria categoriaEncontrada = repositoriocategoria.findByNombre(producto.getCategoria());
+           repositorioproducto.sp_i_producto(producto.getCodigoBarras(),producto.getNombre(),producto.getDescripcion(),producto.getCantidad(), producto.getPrecioCompra(),producto.getPrecioVenta(),categoriaEncontrada.getId());
+           return new ResponseEntity<ProductoInventario>(producto,HttpStatus.OK); 
+           
         }else{
-           return new ResponseEntity<Producto>(producto, HttpStatus.NOT_MODIFIED);
+           return new ResponseEntity<ProductoInventario>(producto, HttpStatus.NOT_MODIFIED);
         }
-        
-        
     }
     
     @GetMapping("/leer")
     public List<ProductoInventario> listCategorias(){
-        /**
-          * Con este método devolvemos todos los productos
-          */
-        return  reposirotioVistaProductos.seleccionaproductos();
+       /**
+         * Con este método devolvemos todos los productos
+         */
+   return  reposirotioVistaProductos.seleccionaproductos();
+}
+    
+    /*Método que permite modificar los datos de un producto*/
+      @RequestMapping(method = RequestMethod.PUT, path = "/modificar", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public String modificarElementoJSON(@RequestBody Producto producto){
+                
+       repositorioproducto.save(producto);
+        return "categoria modificada";
     }
+    /*Método que elimina un producto de la base de datos*/
+    @RequestMapping(method = RequestMethod.PUT, path = "/eliminar", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public String eliminarElemento(@RequestBody Producto producto){
+       repositorioproducto.delete(producto.getCodigoBarras());
+        return "Categoria borrada";        
+    }
+
     
     /**
      * Obtenemos la cantidad de productos de la base de datos
