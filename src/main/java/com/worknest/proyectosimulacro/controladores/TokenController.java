@@ -1,11 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package com.worknest.proyectosimulacro.controladores;
 
 import com.worknest.proyectosimulacro.entidad.Usuario;
+import com.worknest.proyectosimulacro.recursos.ContrasenaUsuario;
+import com.worknest.proyectosimulacro.recursos.RespuestaUsuario;
 import com.worknest.proyectosimulacro.recursos.UsuarioBusqueda;
 import com.worknest.proyectosimulacro.recursos.UsuarioLogin;
 import com.worknest.proyectosimulacro.repositorio.RepositorioUsuario;
@@ -15,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -26,22 +23,37 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/usuario")
 public class TokenController {
-    
+    //Objeto BCryptPasswordEncoder para encriptar la contraseña
     private BCryptPasswordEncoder bcryptpasswordencoder = new BCryptPasswordEncoder();
+    //Inyeccion de dependencias
     @Autowired
     private RepositorioUsuario repositorioUsuario;
 
+    //Método constructor de la case TokenController
     public TokenController(RepositorioUsuario repositorioUsuario) {
         this.repositorioUsuario = repositorioUsuario;
     }
     
-    /*Método para insertar un nuevo usuario en la base de datos, se puso para pruebas*/
-    @RequestMapping(method = RequestMethod.POST, path = "/registro")
-    public String registro(@RequestBody Usuario usuario){
-        String passwordencode = bcryptpasswordencoder.encode(usuario.getContrasena());
-        usuario.setContrasena(passwordencode);
-        repositorioUsuario.save(usuario);
-        return "Usuario registrado";
+    /*Método para cambiar la contrasena por si la olvido*/
+    @RequestMapping(method = RequestMethod.POST, path = "/cambio")
+    public ResponseEntity<String> registro(@RequestBody ContrasenaUsuario contrasenaUsuario){
+        try {
+            //Se busca el usuario que el cliente mando y se asigna a usuarioCambioContrasena
+            Usuario usuarioCambioContrasena = repositorioUsuario.findByUsuario(contrasenaUsuario.getUsuario());
+            //If que verifica si el usuario se encuentra en la contrasena
+            if(usuarioCambioContrasena!=null){
+                String passwordencode = bcryptpasswordencoder.encode(contrasenaUsuario.getContrasena()); //Encriptamos la contrasena
+                usuarioCambioContrasena.setContrasena(passwordencode);//Asiganos al usuario la nueva contraseña encriptada
+                repositorioUsuario.save(usuarioCambioContrasena);//Actualizamos al usuario en la base de datos
+                return new ResponseEntity<>(HttpStatus.OK);//Regresamos un estatus 200 de operación exitosa
+            }else{
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND); //Si no se hayo el usuario regresamos el estatus 404 no encontrado
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR); //Si hay problemas de conexion regresamos erro 500 problemas con el servidor
+        }
+        
+        
     }
 
     
@@ -84,17 +96,34 @@ public class TokenController {
         
      }
     
-    
+    //Método que busca la pregunta secreta del usuario
     @RequestMapping(method = RequestMethod.POST, path = "/buscar", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<UsuarioBusqueda> buscarUsuario(@RequestBody UsuarioBusqueda usuarioBusqueda){
-        
-        System.out.println("Este es el usuario " + usuarioBusqueda.getUsuario());
-        if(repositorioUsuario.findByUsuario(usuarioBusqueda.getUsuario())!=null){
-            return new ResponseEntity<>(HttpStatus.OK);
+    ResponseEntity<String> buscarUsuario(@RequestBody UsuarioBusqueda usuarioBusqueda){
+      
+        Usuario usuario = repositorioUsuario.findByUsuario(usuarioBusqueda.getUsuario());//Se busca el usuario que se tecleo para mandar pregunta
+        //If que verifica el usuario
+        if(usuario!=null){
+            String pregunta = usuario.getPsecreta(); //Si existe el usuario se guarda la pregunta secreta
+            return new ResponseEntity<String>(pregunta,HttpStatus.OK);//Regresamos la pregunta con estatus 200
         }else{
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND); //Si no existe el usuario se manda esttaus 404
         }
-        
-        
+       
     }
+    
+    //Método que verifica la respuesta a la pregunta secreta
+    @RequestMapping(method = RequestMethod.POST, path = "/respuestasecreta", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    ResponseEntity<RespuestaUsuario> verificaRespuestaSecreta(@RequestBody RespuestaUsuario respuestaUsuario){
+        //Obtenemos la respuesta que se recibio
+        String respuestaSecreta = respuestaUsuario.getRsecreta();
+        //Buscamos al usuario que mando la respuesta
+        Usuario usuario = repositorioUsuario.findByUsuario(respuestaUsuario.getUsuario());
+        //If que comprueba la respueta que mando el usuario con la que está almacenada
+        if(respuestaSecreta.equalsIgnoreCase(usuario.getRsecreta())){
+            return new ResponseEntity<>(HttpStatus.OK);//Si la respuesta es igual estatus 200
+        }else{
+            return new ResponseEntity<>(HttpStatus.CONFLICT);//Si la respuesta no es igual estatus 409
+        }
+    }
+    
 }

@@ -30,7 +30,7 @@ public class JwtFilter extends GenericFilterBean {
 
 			chain.doFilter(req, res);
 		} else {
-
+                        //Verificación del token que se manda por parte del cliente
 			if (authHeader == null || !authHeader.startsWith("Token ")) {
 				throw new ServletException("Missing or invalid Authorization header");
 			}
